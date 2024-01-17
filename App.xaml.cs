@@ -13,5 +13,15 @@ namespace Deployer
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// Gets the arguments when this app starts. the first argument is usually file location.
+        /// </summary>
+        public string[] Args { get; private set; } = Array.Empty<string>();
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            Args = e.Args;
+            base.OnStartup(e);
+        }
     }
 }

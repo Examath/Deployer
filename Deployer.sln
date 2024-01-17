@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer", "Deployer.csproj", "{91C075D7-7DE6-45E9-BE58-8FA8C4815717}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examath.Core", "..\..\Examath\Core\Examath.Core.csproj", "{3A847C12-6FD7-49C6-97C8-BA898A3915FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{91C075D7-7DE6-45E9-BE58-8FA8C4815717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91C075D7-7DE6-45E9-BE58-8FA8C4815717}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91C075D7-7DE6-45E9-BE58-8FA8C4815717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A847C12-6FD7-49C6-97C8-BA898A3915FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A847C12-6FD7-49C6-97C8-BA898A3915FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A847C12-6FD7-49C6-97C8-BA898A3915FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A847C12-6FD7-49C6-97C8-BA898A3915FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
