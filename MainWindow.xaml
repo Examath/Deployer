@@ -8,23 +8,42 @@
         xmlns:dd="urn:gong-wpf-dragdrop"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="CEC Deployer Alpha" Height="450" Width="800" Style="{StaticResource ContrastWindowStyle}">
+        Title="Exalab Deployer Alpha" Height="450" Width="800" Style="{StaticResource ContrastWindowStyle}">
     <Window.DataContext>
         <local:DeployerVM/>
     </Window.DataContext>
     <Window.Resources>
         <DataTemplate DataType="{x:Type local:Part}">
-            <DockPanel LastChildFill="False" Width="300" Background="{StaticResource PanelFaintColourKey}" Margin="2">
-                <examath:BoolOutput IsChecked="{Binding IsFileMatched}" Text="F" Background="Green" DockPanel.Dock="Right" />
-                <Label Content="{Binding OutputName}" FontWeight="Bold" DockPanel.Dock="Top"/>
-                <TextBlock Text="{Binding TargetDescription}" Margin="8 0"/>
-                <TextBlock Text="{Binding Material}" FontStyle="Italic"/>
-            </DockPanel>
+            <Grid Background="{StaticResource PanelFaintColourKey}" Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="FileName"/>
+                    <ColumnDefinition SharedSizeGroup="desc"/>
+                    <ColumnDefinition SharedSizeGroup="mat"/>
+                    <ColumnDefinition/>                    
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="{Binding OutputName}" FontWeight="Bold"/>
+                <TextBlock Text="{Binding TargetDescription}" Margin="8 0" Grid.Column="1"/>
+                <TextBlock Text="{Binding Material}" FontStyle="Italic" Grid.Column="2"/>
+                <examath:BoolOutput IsChecked="{Binding IsFileMatched}" Text="F" Background="Green" Grid.Column="3" />
+                <TextBlock x:Name="missftxt" Grid.Row="1" Grid.ColumnSpan="4"
+                           Text="{Binding TargetFilename, StringFormat='~ {0}'}" 
+                           Visibility="Collapsed" Foreground="{StaticResource WarningColourKey}"/>
+            </Grid>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsFileMatched}" Value="False">
+                    <Setter TargetName="missftxt" Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
         </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="249*"/>
+            <ColumnDefinition Width="8"/>
             <ColumnDefinition Width="551*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -32,33 +51,34 @@
             <RowDefinition Height="27*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.ColumnSpan="2">
+        <StackPanel Grid.ColumnSpan="3">
             <Label Content="{Binding BomLocation}" ContentStringFormat="Bom Loc: {0}" Style="{StaticResource OutputLabel}" />
             <Label Content="{Binding FeedLocation}" ContentStringFormat="STL Loc: {0}" Style="{StaticResource OutputLabel}" />
-        </StackPanel>
-        <ListView Style="{StaticResource CompactListBoxStyle}" ItemsSource="{Binding AvailableParts}" 
-                  Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Grid.ColumnSpan="1"
-         dd:DragDrop.IsDragSource="True"
-         dd:DragDrop.IsDropTarget="True">
-
-        </ListView>
-        <ListView Style="{StaticResource CompactListBoxStyle}" ItemsSource="{Binding SelectedParts}" 
-                  Grid.Row="1" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-         dd:DragDrop.IsDragSource="True"
-         dd:DragDrop.IsDropTarget="True">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>
-        <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
+            <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
                 <examath:DirectoryPicker Directory="{Binding OutputDirectory}">
-                
+
                 </examath:DirectoryPicker>
                 <TextBox Text="{Binding Suffix}"></TextBox>
                 <Button x:Name="Deploy" VerticalAlignment="Bottom" Content="Deploy" Click="Deploy_Click"/>
             </DockPanel>
+        </StackPanel>
+        <ListView Style="{StaticResource CompactListBoxStyle}" ItemsSource="{Binding AvailableParts}" 
+                  Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Grid.ColumnSpan="1" Grid.IsSharedSizeScope="True"
+         dd:DragDrop.IsDragSource="True"
+         dd:DragDrop.IsDropTarget="True">
+
+        </ListView>
+        <GridSplitter Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"/>
+        <ListView Style="{StaticResource CompactListBoxStyle}" ItemsSource="{Binding SelectedParts}" 
+                  Grid.Row="1" Grid.Column="2" d:ItemsSource="{d:SampleData ItemCount=5}" Grid.IsSharedSizeScope="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+         dd:DragDrop.IsDragSource="True"
+         dd:DragDrop.IsDropTarget="True">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
     </Grid>
 </Window>
